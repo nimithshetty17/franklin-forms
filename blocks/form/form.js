@@ -39,6 +39,7 @@ const constraintsDef = Object.entries({
 const constraintsObject = Object.fromEntries(constraintsDef);
 
 function setConstraints(element, fd) {
+  console.log('constraints: ', element, fd);
   const renderType = getHTMLRenderType(fd);
   const constraints = constraintsObject[renderType];
   if (constraints) {
@@ -54,8 +55,10 @@ function setConstraints(element, fd) {
 function createInput(fd) {
   const input = document.createElement('input');
   input.type = getHTMLRenderType(fd);
+  console.log('input 1', input);
   setPlaceholder(input, fd);
   setConstraints(input, fd);
+  console.log('input 2', input);
   return input;
 }
 
