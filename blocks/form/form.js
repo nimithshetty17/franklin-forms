@@ -335,6 +335,7 @@ function renderField(fd) {
   if (fd.fieldType !== 'radio-group' && fd.fieldType !== 'checkbox-group') {
     inputDecorator(fd, field);
   }
+  console.log('field: ', field);
   return field;
 }
 
