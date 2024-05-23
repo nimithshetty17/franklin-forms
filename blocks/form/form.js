@@ -45,6 +45,7 @@ function setConstraints(element, fd) {
     constraints
       .filter(([nm]) => fd[nm])
       .forEach(([nm, htmlNm]) => {
+        console.log('Input data: ', htmlNm, nm, fd[nm]);
         element.setAttribute(htmlNm, fd[nm]);
       });
   }
