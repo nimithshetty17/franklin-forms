@@ -39,7 +39,7 @@
     }
 }
 
-.footer-links > div:nth-of-type(2) > div > p {
+.footer-links > div:nth-of-type(2) > div {
     display: flex;
     align-items: center;
 
@@ -82,7 +82,7 @@
     }
 }
 
-.footer-links > div:nth-of-type(2) > div:first-of-type > p {
+.footer-links > div:nth-of-type(2) > div:first-of-type {
     gap: 16px;
 
     @media (width <= 767px) {
@@ -90,7 +90,7 @@
     }
 }
 
-.footer-links > div:nth-of-type(2) > div:last-of-type > p {
+.footer-links > div:nth-of-type(2) > div:last-of-type {
     gap: 30px;
     
     @media (width <= 767px) {
