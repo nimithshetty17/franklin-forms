@@ -39,14 +39,12 @@ const constraintsDef = Object.entries({
 const constraintsObject = Object.fromEntries(constraintsDef);
 
 function setConstraints(element, fd) {
-  console.log('constraints: ', element, fd);
   const renderType = getHTMLRenderType(fd);
   const constraints = constraintsObject[renderType];
   if (constraints) {
     constraints
       .filter(([nm]) => fd[nm])
       .forEach(([nm, htmlNm]) => {
-        console.log('Input data: ', htmlNm, nm, fd[nm]);
         element.setAttribute(htmlNm, fd[nm]);
       });
   }
@@ -55,10 +53,8 @@ function setConstraints(element, fd) {
 function createInput(fd) {
   const input = document.createElement('input');
   input.type = getHTMLRenderType(fd);
-  console.log('input 1', input);
   setPlaceholder(input, fd);
   setConstraints(input, fd);
-  console.log('input 2', input);
   return input;
 }
 
@@ -301,6 +297,9 @@ function inputDecorator(field, element) {
     if (field.required) {
       input.setAttribute('required', 'required');
     }
+    if (field.disabled) {
+      input.setAttribute('disabled', 'disabled');
+    }
     if (field.description) {
       input.setAttribute('aria-describedby', `${field.id}-description`);
     }
@@ -338,7 +337,6 @@ function renderField(fd) {
   if (fd.fieldType !== 'radio-group' && fd.fieldType !== 'checkbox-group') {
     inputDecorator(fd, field);
   }
-  console.log('field: ', field);
   return field;
 }
 
@@ -442,6 +440,32 @@ function extractFormDefinition(block) {
   return { container, formDef };
 }
 
+function toggleButtonVisibility(btnWrapper, showBtn) {
+  if(showBtn) btnWrapper.style.display = 'block';
+  else if(!showBtn && btnWrapper.style.display == 'block') btnWrapper.style.display = 'none';
+}
+
+function sendOtpButton(block) {
+  const mobFieldset = block.querySelector('#mobile-sendotp');
+  const mobBtnWrapper = mobFieldset.querySelector('.button-wrapper');
+  const mobInput = mobFieldset.querySelector('#mobile');
+  
+  mobInput.setAttribute('maxlength', 10);
+
+  mobInput.addEventListener('keyup', evt => {
+    console.log('mobInput evt len ', evt?.target?.value?.length);
+    if(evt?.target?.value?.length == 10) toggleButtonVisibility(mobBtnWrapper, true);
+    else toggleButtonVisibility(mobBtnWrapper, false);
+  })
+
+  mobBtnWrapper.querySelector('button').addEventListener('click', evt => {
+    console.log('btn ', evt.target);
+    const otpBtnWraper = block.querySelector('#otp-resendotp .button-wrapper');
+    toggleButtonVisibility(otpBtnWraper, true);
+    toggleButtonVisibility(mobBtnWrapper, false);
+  })
+}
+
 export async function fetchForm(pathname) {
   // get the main form
   let data;
@@ -507,5 +531,6 @@ export default async function decorate(block) {
       form.dataset.formpath = formDef.properties['fd:path'];
     }
     container.replaceWith(form);
+    sendOtpButton(block);
   }
 }

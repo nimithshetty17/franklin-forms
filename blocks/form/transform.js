@@ -82,7 +82,7 @@ function handleMultiValues(item, key) {
   }
 }
 
-const booleanProperty = ['required', 'visible', 'enabled', 'readOnly', 'repeatable'];
+const booleanProperty = ['required', 'visible', 'enabled', 'readOnly', 'repeatable', 'disabled'];
 
 function convertStringToBoolean(value) {
   if (typeof value === 'boolean') {
@@ -100,6 +100,7 @@ function handleFranklinSpecialCases(item) {
   });
   // Franklin Mandatory uses x for true.
   item.required = (item.required === 'x' || item.required === true);
+  item.disabled = (item.disabled === 'x' || item.disabled === true);
 
   if (item.Max || item.Min || item?.constraintMessages?.max || item?.constraintMessages?.min) {
     if (item.fieldType === 'number-input' || item.fieldType === 'date' || item.fieldType === 'range') {
@@ -162,6 +163,7 @@ export default class DocBasedFormToAF {
     Visible: 'visible',
     Repeatable: 'repeatable',
     Style: 'appliedCssClassNames',
+    Disabled: 'disabled',
     'Required Error Message': 'constraintMessages.required',
     'Pattern Error Message': 'constraintMessages.pattern',
     'Min Error Message': 'constraintMessages.min',
@@ -192,6 +194,7 @@ export default class DocBasedFormToAF {
      * @return {{formDef: any, excelData: any}} response
      */
   transform(exData, { name } = { name: 'Form' }) {
+    console.log('exData ', exData);
     this.errors = [];
     // if its adaptive form json just return it.
     if (exData?.adaptiveform) {

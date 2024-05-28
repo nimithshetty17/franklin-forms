@@ -84,11 +84,11 @@ main .form {
 }
 
 main .form > div:not(:first-child) {
-    display: none;
+    /* display: none; */
 }
 
 main .form form {
-    display: grid;
+    /* display: grid; */
     grid-template-columns: repeat(var(--form-columns), minmax(0, 1fr));
     gap: var(--form-field-vert-gap) var(--form-field-horz-gap);
 }
@@ -328,6 +328,67 @@ main .form .button-wrapper button[disabled]:hover {
     border: 3px solid var(--button-secondary-color);
     color: var(--button-secondary-color);
     background-color: transparent;
+}
+
+main .form.hero form {
+    display: block;
+
+    .field-wrapper {
+        position: relative;
+        margin-bottom: 16px;
+
+        label {
+            position: absolute;
+            top: -7px;
+            left: 16px;
+            font-size: 16px;
+            line-height: 1;
+            font-weight: 600;
+            background-color: white;
+            padding: 0 4px;
+            z-index: 2;
+        }
+
+        input,
+        select {
+            margin: unset;
+            height: 50px;
+            border-radius: 7px;
+            padding: 0 16px;
+        }
+
+        input:disabled,
+        select:disabled {
+            background-color: unset;
+        }
+
+        select {
+            appearance: none;
+        }
+    }
+
+    .field-mobile-sendotp,
+    .field-otp-resendotp {
+        position: relative;
+    }
+
+    .field-sendotp,
+    .field-resendotp {
+        display: none;
+        position: absolute;
+        right: 50px;
+        top: 5px;
+        
+        button {
+            color: black;
+            background: unset;
+            border: unset;
+            text-decoration: underline;
+            padding: unset;
+            margin: unset;
+            font-weight: normal;
+        }
+    }
 }
 
 /** Wizard Styling */
